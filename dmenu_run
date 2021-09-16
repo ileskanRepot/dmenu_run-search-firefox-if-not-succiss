@@ -1,0 +1,3 @@
+#!/bin/sh
+RUN=$(dmenu_path | dmenu "$@") #| echo $(xargs)
+echo $RUN | ${SHELL:-"/bin/sh"} || firefox-developer-edition --private-window "https://duckduckgo.com/?t=ffab&q=$RUN"

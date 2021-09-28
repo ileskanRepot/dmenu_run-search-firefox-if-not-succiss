@@ -1,0 +1,38 @@
+#!/bin/node
+const {execSync} = require('child_process');
+const { ENOTEMPTY } = require('constants');
+
+const listNodes = (node) => {
+	if(node.nodes.length == 0 || node.nodes == undefined) {
+		containers.push(node);
+	}
+	else {
+		for(let childNode of node.nodes) {
+			listNodes(childNode);
+		}
+	}
+}
+
+let rootcon = JSON.parse(execSync('i3-msg -t get_tree'));
+let workspaces = JSON.parse(execSync('i3-msg -t get_workspaces'));
+let currentWorkspace = workspaces.find(e => e.focused);
+
+let containers = [];
+for(let screen of rootcon.nodes) {
+	if(screen.name == "eDP1") {
+		for(let con0 of screen.nodes) {
+			if(con0.type != "con") continue;
+			for(let workspace of con0.nodes) {
+				if(workspace.name == currentWorkspace.name)
+					listNodes(workspace);
+			}
+		}
+	}
+	for(node of containers) {
+		if(node.window_properties.class == "firefoxdeveloperedition" && node.window_properties.window_role == "browser") {
+			console.log(1);
+			return;
+		}
+	}
+}
+return;

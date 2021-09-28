@@ -1,3 +1,4 @@
 #!/bin/sh
 RUN=$(dmenu_path | dmenu "$@") #| echo $(xargs)
-echo $RUN | ${SHELL:-"/bin/sh"} || firefox-developer-edition --private-window "https://duckduckgo.com/?t=ffab&q=$RUN"
+echo $RUN | ${SHELL:-"/bin/sh"} || [ -z $(./isFirefoxOnWorkspace) ] && firefox-developer-edition --private-window; sleep 0.3;firefox-developer-edition --private-window "https://duckduckgo.com/?t=ffab&q=$RUN" || firefox-developer-edition --private-window "https://duckduckgo.com/?t=ffab&q=$RUN"
+#echo $RUN | ${SHELL:-"/bin/sh"} || firefox-developer-edition --private-window "https://duckduckgo.com/?t=ffab&q=$RUN"
